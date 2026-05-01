@@ -1,0 +1,44 @@
+=======================================================
+      Precious Metals fair Value Calculator 
+=======================================================
+Welcome Prayunj, Generating your valuation report....
+Data Reference: World Gold Council & FRED, Feb 2026
+=======================================================
+              Gold Valuation Report 
+=======================================================
+ Total Gold Ever Mined: 219,890 tonnes
+ Total Gold Still in Ground: 50,000 tonnes
+ Note: Underground reserves not used in valuation
+ Total Gold in Troy Ounces: 7,069,617,423 troy oz
+ US M2 Money Supply: $22,411 Billion
+ EU M2 Money Supply (50%): $9,603 Billion
+ Fair Value US M2 basis: Rs.9,631.37 per gm
+ Fair Value EU M2 basis: Rs.4,126.99 per gm
+-------------------------------------------------------
+ Fair Value of Gold: Rs.13,758.36 per gm
+ Current Gold Price: Rs.11,500.00 per gm 
+ Difference        : Rs.-2,258.36 per gm
+-------------------------------------------------------
+ Gold Is UnderValued by -16.41% 
+-------------------------------------------------------
+
+
+=======================================================
+              SILVER VALUATION REPORT 
+=======================================================
+ Current Gold to Silver ratio: 47 
+ Historical Gold to Silver Ratio( Roman Empire, Ancient Greece, Ancient India): 8-12 
+ After the shift from Gold Standard (1971): 17 -100 
+ 21st Century GSR: 98-125 
+ Fair Gold to Silver Ratio, averaging all: 60 
+-------------------------------------------------------
+ Fair value of Silver: Rs.229.31 per gm 
+ Current Silver Price: Rs.188.00 per gm 
+ Difference          : Rs.-41.31 per gm 
+-------------------------------------------------------
+ Silver Is UnderValued by -18.01% 
+-------------------------------------------------------
+
+
+
+ ============== END OF REPORT ============== 
