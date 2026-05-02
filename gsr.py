@@ -45,16 +45,64 @@ analyse_gsr(gsr)
 # plt.show()
 
 def plot_gsr(gsr):
-    plt.plot(gsr.index,gsr.values)
-    plt.title("Gold Silver Ratio - Historical Analysis (2001-2026)")
-    plt.xlabel("Years")
-    plt.ylabel("GSR - Gold Silver Ratio")
-    plt.axhline(y=gsr.mean(),color="red",linestyle="--",label="Historical Average")
+    fig, ax = plt.subplots(figsize=(6,2))
+    ax.plot(gsr.index,gsr.values)
+    ax.set_title("Gold Silver Ratio - Historical Analysis (2001-2026)", fontsize=12)
+    ax.set_ylabel("GSR - Gold Silver Ratio", fontsize=10)
+    ax.set_xlabel("Years", fontsize=10)
+    ax.tick_params( labelsize = 8 )
+    ax.axhline(y=gsr.mean(),color="red",linestyle="--",label="Historical Average")
 
-    plt.axhspan(80,130, alpha=0.10, color="red", label=" OverHeated Zone (GSR > 80)")
-    plt.axhspan(30,50, alpha=0.10, color="green", label=" Opportunity Zone (GSR < 50)")
-    plt.legend()
+    ax.axhspan(80,130, alpha=0.10, color="red", label=" OverHeated Zone (GSR > 80)")
+    ax.axhspan(30,50, alpha=0.10, color="green", label=" Opportunity Zone (GSR < 50)")
+    ax.legend()
 
-    plt.show()
+    return fig
 
 plot_gsr(gsr)
+
+
+def plot_gsr_plotly(gsr):
+    import plotly.graph_objects as go
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=gsr.index,
+        y=gsr.values,
+        mode="lines",
+        name="Gold Silver Ratio",
+        line = dict(color = "gold", width = 1.5),
+        hovertemplate = "Date: %{x|%Y-%m-%d}<br>GSR: %{y:.2f}<extra></extra>",
+    ))
+    fig.update_layout(
+        title="Gold Silver Ratio - Historical Analysis (2001-2026)",
+        xaxis_title="Years",
+        yaxis_title="GSR - Gold Silver Ratio",
+        showlegend=True,
+        hovermode="x unified",
+    )
+    fig.add_hline(
+        y=gsr.mean(),
+        line_dash="dot",
+        line_color="red",
+        annotation_text="Historical Average",
+        annotation_position="bottom right"
+    )
+    fig.add_hrect(
+        y0=80, y1=130,
+        fillcolor="red", opacity=0.1,
+        line_width=0,
+        annotation_text="Overheated Zone (GSR > 80)",
+        annotation_position="top right"
+    )
+
+    fig.add_hrect(
+        y0=20, y1=55,
+        fillcolor="green", opacity=0.1,
+        line_width=0,
+        annotation_text="Opportunity Zone (GSR < 55)",
+        annotation_position="bottom right"
+    )
+
+    return fig
