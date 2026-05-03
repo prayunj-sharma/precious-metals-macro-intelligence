@@ -44,6 +44,7 @@ analyse_gsr(gsr)
 # plt.plot(x,y)
 # plt.show()
 
+
 def plot_gsr(gsr):
     fig, ax = plt.subplots(figsize=(6,2))
     ax.plot(gsr.index,gsr.values)
@@ -61,7 +62,7 @@ def plot_gsr(gsr):
 
 plot_gsr(gsr)
 
-
+# Plotly Charts for better Visuals
 def plot_gsr_plotly(gsr):
     import plotly.graph_objects as go
 
@@ -104,5 +105,4 @@ def plot_gsr_plotly(gsr):
         annotation_text="Opportunity Zone (GSR < 55)",
         annotation_position="bottom right"
     )
-
     return fig
