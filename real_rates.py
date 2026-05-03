@@ -98,7 +98,6 @@ def analyze_ind_rates(ind_data):
         print(f"Current Real Rate: {current_rate:.2f} is Positive (Bearish Trend) - Neutral/Sell Signal for Gold.")
 
 
-
 def plot_ind_rates(ind_data):
     plt.plot(ind_data.index, ind_data["Real Rates"])
     plt.title("India Real Rates (2011-2026)")
