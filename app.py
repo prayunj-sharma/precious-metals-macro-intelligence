@@ -58,3 +58,19 @@ if st.button("Run Central Bank Gold Accumulation Analysis"):
         st.plotly_chart(fig, use_container_width=True)
 
 
+st.divider()
+
+st.header("Central Bank Net Gold Purchases (2002-Present)")
+st.write("Central Banks Ranked By Gold Bought")
+
+if st.button("Run Central Banks By Gold Bought"):
+    with st.spinner("retrieving data...."):
+        from central_bank_gold import fetch_changes_data, plot_net_purchases
+
+        net_purchases = fetch_changes_data()
+        fig = plot_net_purchases(net_purchases)
+        st.plotly_chart(fig, use_container_width=True)
+
+
+
+
