@@ -82,7 +82,6 @@ def plot_top_holdings(reserve_data):
 )
     return fig
 
-
 # if __name__ == "__main__":
     # reserve_data = fetch_reserve_data()
     # fig = plot_top_holdings(reserve_data)
@@ -92,6 +91,7 @@ def plot_top_holdings(reserve_data):
 # Reserve Data
 
 # Reserve Changes over time
+@st.cache_data
 def fetch_changes_data():
     gold_changes = pd.read_excel("gold_changes.xlsx", sheet_name="Monthly", skiprows=7)
 
@@ -152,7 +152,7 @@ def plot_net_purchases(total):
     return fig
 
 fig = plot_net_purchases(total)
-fig.show()
+# fig.show()
 
 
 
