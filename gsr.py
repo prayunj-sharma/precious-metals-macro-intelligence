@@ -1,7 +1,9 @@
 # Gold-Silver Ratio Project
 import yfinance as yf
 import matplotlib.pyplot as plt
+import streamlit as st
 
+@st.cache_data
 def fetch_data():
     gold_data = yf.download('gc=f', start='2001-01-01', end='2026-03-31')
     silver_data = yf.download('si=f', start='2001-01-01', end='2026-03-31')
