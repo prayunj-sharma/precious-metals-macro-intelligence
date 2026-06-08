@@ -1,7 +1,8 @@
 # Real Rates Calculation Project
 import pandas as pd
 import matplotlib.pyplot as plt
-import yfinance as yf
+import streamlit as st
+import plotly.graph_objects as go
 from fredapi import Fred
 from dotenv import load_dotenv
 import os
@@ -12,6 +13,7 @@ fred = Fred(api_key=os.getenv("FRED_API_KEY"))
 # data = fred.get_series("DGS10")
 # print(data)
 
+@st.cache_data
 def fetch_us_data():
     nominal = fred.get_series('DGS10')
     # print(fred.get_series('DGS10'))
@@ -40,28 +42,45 @@ def analyze_us_rates(us_data):
     current_rate = us_data["Real Rates"].iloc[-1]
 
     if current_rate < 0:
-        print(f"Current Real Rate: {current_rate:.2f} is in Negative (Bullish Trend) - Strong buy Signal for Gold.")
+        print(f"Current Real Rate: {current_rate:.2f} is in Negative (Bullish Trend) - Strong Buy Signal for Gold.")
+        signal = "🟢 Negative Real Rate (Bullish Trend) - Strong Buy Signal for Gold"
     else:
         print(f"Current Real Rate: {current_rate:.2f} is in Positive (Bearish Trend) - Neutral/Sell Signal for Gold.")
-
+        signal = "🔴 Positive Real Rate (Bearish Trend) - Neutral/Sell Signal for Gold"
+    return {
+        "current": current_rate,
+        "mean": us_data["Real Rates"].mean(),
+        "max": us_data["Real Rates"].max(),
+        "min": us_data["Real Rates"].min(),
+        "negative": int((us_data["Real Rates"] < 0).sum()),
+        "signal": signal
+    }
 
 def plot_us_rates(us_data):
-    plt.plot(us_data.index, us_data["Real Rates"])
-    plt.title("United States Real Rates (2003-2026)")
-    plt.xlabel("Years")
-    plt.ylabel("Real Rates")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=us_data.index, y=us_data["Real Rates"], mode="lines", name="Real Rates"))
+    fig.add_trace(go.Scatter(x=us_data.index, y=us_data["Real Rates"].clip(upper=0), fill='tozeroy', mode='none', fillcolor='rgba(255,0,0,0.25)', name='Negative Zone'))
+    fig.add_hline(y=0, line_dash = "dash", line_color="black")
+    fig.update_layout(title="United States Real Rates (2003-2026)", xaxis_title="Years", yaxis_title="Real Rates")
+    return fig
 
-    plt.fill_between(us_data.index, us_data['Real Rates'],0 ,
-                     where=(us_data['Real Rates'] < 0),
-                     color='red', alpha=0.3, label='Negative Real Rate (Bullish for Gold)')
-    plt.axhline(y=0,color="black",linestyle="--",label="Zero Line")
-    plt.legend()
-
-    plt.show()
+    # Old Matplotlib Code , Commented out for Plotly
+    # plt.plot(us_data.index, us_data["Real Rates"])
+    # plt.title("United States Real Rates (2003-2026)")
+    # plt.xlabel("Years")
+    # plt.ylabel("Real Rates")
+    #
+    # plt.fill_between(us_data.index, us_data['Real Rates'],0 ,
+    #                  where=(us_data['Real Rates'] < 0),
+    #                  color='red', alpha=0.3, label='Negative Real Rate (Bullish for Gold)')
+    # plt.axhline(y=0,color="black",linestyle="--",label="Zero Line")
+    # plt.legend()
+    #
+    # plt.show()
 
 
 # Real Rates Calculation for India
-
+@st.cache_data
 def fetch_ind_data():
     india_cpi = fred.get_series("INDCPIALLMINMEI")
     # print(india_cpi)
@@ -94,31 +113,53 @@ def analyze_ind_rates(ind_data):
 
     if current_rate < 0:
         print(f"Current Real Rate: {current_rate:.2f} is in Negative (Bullish Trend) - Strong buy Signal for Gold.")
+        signal = "🟢 Negative Real Rate (Bullish Trend) - Strong Buy Signal for Gold"
     else:
         print(f"Current Real Rate: {current_rate:.2f} is Positive (Bearish Trend) - Neutral/Sell Signal for Gold.")
+        signal = "🔴 Positive Real Rate (Bearish Trend) - Neutral/Sell Signal for Gold"
+    return {
+        "current": current_rate,
+        "mean": ind_data["Real Rates"].mean(),
+        "max": ind_data["Real Rates"].max(),
+        "min": ind_data["Real Rates"].min(),
+        "negative": int((ind_data["Real Rates"] < 0).sum()),
+        "signal": signal
+    }
 
 
 def plot_ind_rates(ind_data):
-    plt.plot(ind_data.index, ind_data["Real Rates"])
-    plt.title("India Real Rates (2011-2026)")
-    plt.xlabel("Years")
-    plt.ylabel("Real Rates")
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=ind_data.index, y=ind_data["Real Rates"], mode="lines", name="Real Rates"))
+    fig.add_trace(go.Scatter(x=ind_data.index, y=ind_data["Real Rates"].clip(upper=0), fill='tozeroy', mode='none', fillcolor='rgba(255,0,0,0.25)', name='Negative Zone'))
+    fig.add_hline(y=0, line_dash = "dash", line_color="black")
+    fig.update_layout(title="India Real Rates (2011-2026)", xaxis_title="Years", yaxis_title="Real Rates")
+    return fig
 
-    plt.fill_between(ind_data.index, ind_data['Real Rates'],0 ,
-                     where=(ind_data['Real Rates'] < 0),
-                     color='red', alpha=0.3, label='Negative Real Rate (Bullish for Gold)')
-    plt.axhline(y=0,color="black",linestyle="--",label="Zero Line")
-    plt.legend()
-
-    plt.show()
+    # Old Matplotlib Code , Commented out for Plotly
+    # plt.plot(ind_data.index, ind_data["Real Rates"])
+    # plt.title("India Real Rates (2011-2026)")
+    # plt.xlabel("Years")
+    # plt.ylabel("Real Rates")
+    #
+    # plt.fill_between(ind_data.index, ind_data['Real Rates'],0 ,
+    #                  where=(ind_data['Real Rates'] < 0),
+    #                  color='red', alpha=0.3, label='Negative Real Rate (Bullish for Gold)')
+    # plt.axhline(y=0,color="black",linestyle="--",label="Zero Line")
+    # plt.legend()
+    #
+    # plt.show()
 
 if __name__ == "__main__":
     us_data = fetch_us_data()
     analyze_us_rates(us_data)
-    plot_us_rates(us_data)
+    us_fig = plot_us_rates(us_data)
+    us_fig.show()
+    # plot_us_rates(us_data)
     ind_data = fetch_ind_data()
     analyze_ind_rates(ind_data)
-    plot_ind_rates(ind_data)
+    ind_fig = plot_ind_rates(ind_data)
+    ind_fig.show()
+    # plot_ind_rates(ind_data)
 
 
 
